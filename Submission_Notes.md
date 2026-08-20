@@ -33,10 +33,10 @@ Successful workflow runs can be verified from the GitHub Actions tab of the publ
 The application is deployed on Amazon EKS.
 
 ### Frontend Application URL
-http:a9138a82c97a04844a52ae63616e8360-166450987.us-east-1.elb.amazonaws.com
+http://a9138a82c97a04844a52ae63616e8360-166450987.us-east-1.elb.amazonaws.com
 
 ### Backend Application URL
-http:af682fcbfaafd45d2ba0821f4d91d693-797719528.us-east-1.elb.amazonaws.com
+http://af682fcbfaafd45d2ba0821f4d91d693-797719528.us-east-1.elb.amazonaws.com
 
 ## Infrastructure
 
