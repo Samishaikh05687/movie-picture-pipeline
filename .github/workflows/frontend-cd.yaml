@@ -95,9 +95,9 @@ jobs:
       - name: Deploy frontend
         working-directory: starter/frontend/k8s
         env:
-          ECR_URL: ${{ secrets.FRONTEND_ECR_URL }}
-          IMAGE_TAG: ${{ github.sha }}
+         ECR_URL: ${{ secrets.FRONTEND_ECR_URL }}
+         IMAGE_TAG: ${{ github.sha }}
         run: |
-          kustomize edit set image frontend=$ECR_URL:$IMAGE_TAG
-          kustomize build | kubectl apply -f -
-          kubectl rollout status deployment/frontend --timeout=180s
+         kubectl apply -k .
+         kubectl set image deployment/frontend frontend=$ECR_URL:$IMAGE_TAG
+         kubectl rollout status deployment/frontend --timeout=300s
