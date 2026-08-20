@@ -102,8 +102,9 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-          ECR_URL="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/frontend"
-
+          ECR_URL="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}"
+          IMAGE_URI="${ECR_URL}:${IMAGE_TAG}"
+          
           echo "Deploying image: ${ECR_URL}:${IMAGE_TAG}"
 
           kubectl apply -k .
