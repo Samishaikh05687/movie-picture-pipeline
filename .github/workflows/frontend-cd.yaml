@@ -93,19 +93,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
       - name: Configure kubectl
         run: aws eks update-kubeconfig --name $CLUSTER_NAME --region $AWS_REGION
 
       - name: Deploy frontend
         working-directory: starter/frontend/k8s
         env:
-          ECR_URL: ${{ steps.login-ecr.outputs.registry }}/frontend
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          ECR_URL="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/frontend"
+
+          echo "Deploying image: ${ECR_URL}:${IMAGE_TAG}"
+
           kubectl apply -k .
-          kubectl set image deployment/frontend frontend=$ECR_URL:$IMAGE_TAG
+
+          kubectl set image deployment/frontend \
+            frontend="${ECR_URL}:${IMAGE_TAG}"
+
           kubectl rollout status deployment/frontend --timeout=300s
