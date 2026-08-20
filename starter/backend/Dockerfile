@@ -13,8 +13,6 @@ RUN apt-get update && \
     build-essential \
     gcc \
     python3-dev \
-    libpcre3 \
-    libpcre3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip && \
